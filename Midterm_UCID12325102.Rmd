@@ -146,7 +146,8 @@ mrgpvals_p <- unlist(parLapply(cl,P,margreg))
 
 ```{r}
 o <- order(mrgpvals_p)
-hist(mrgpvals_p[o], breaks=20, col="lightblue", freq = FALSE, main = 'Figure 1. Histgram of p-values (price)', xlab = 'p-values') 
+hist(mrgpvals_p[o], breaks=20, col="lightblue", freq = FALSE,
+     main = 'Figure 1. Histgram of p-values (price)', xlab = 'p-values') 
 ```
 
 For the price, there isn't clear spike in the plot, although the density increases a bit could p = 0.4 and p=0.8. Thus, we can't claim that it's enough signal to predict price.
@@ -163,7 +164,8 @@ clusterExport(cl,"Outcome")
 mrgpvals_v <- unlist(parLapply(cl,P,margreg))
 
 # plot
-hist(as.numeric(mrgpvals_v), breaks=20, col="lightblue", freq = FALSE, main='Figure 2. Histgram of p-values (volatility)', xlab = 'p-values') 
+hist(as.numeric(mrgpvals_v), breaks=20, col="lightblue", freq = FALSE,
+     main='Figure 2. Histgram of p-values (volatility)', xlab = 'p-values') 
 ```
 
 However, for the volatility, we can observe a clear spike near zero, which indicates that the p-value distribution deviates from a uniform distribution. This is an indication for signal. Therefore, the spike near zero helps us know that it's highly likely to be a signal to predict.
@@ -192,7 +194,7 @@ The alpha value is 1.026222e-05 for price, and 245 words are significant.
 ```{r, echo=TRUE}
 # Repeat for volatility
 cutoff_v <- fdr_cut(mrgpvals_v,0.1,TRUE)
-title("Figure 4. FDR of volatility on spm", adj = 1)
+title("Figure 4. FDR of volatility on spm", line = 2)
 
 print(cutoff_v)
 
@@ -242,7 +244,7 @@ summary(reg)
 ```{r}
 lasso1<- gamlr(spm, y=R, lambda.min.ratio=1e-3)
 plot(lasso1)
-title("Figure 5. LASSO of Return on spm", line = -2)
+title("Figure 5. LASSO of Return on spm", line = 2)
 # Choose the best lambda with AICc
 # AICc selected coef
 beta_return <- coef(lasso1) 
@@ -297,7 +299,7 @@ colnames(spm2)[1]<-"previous"
 lasso3<- gamlr(spm2, y=V, lambda.min.ratio=1e-3)
 
 plot(lasso3)
-title("Figure 7. LASSO of Volatility on spm and Lag Volatility")
+title("Figure 7. LASSO of Volatility on spm and Previous", line = 2)
 # Choose the best lambda with AICc
 # AICc selected coef
 beta_return <- coef(lasso3)
